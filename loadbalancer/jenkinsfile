@@ -1,0 +1,26 @@
+pipeline{
+    agent {
+        label 'master'
+    }
+    tools {
+        terraform 'terraform'
+    }
+    stages{
+        stage ('initilize'){
+            steps{
+                sh "terraform init"
+            }
+        }
+        stage ('plan'){
+            stepss{
+                sh "terraform plan"
+            }
+        }
+        stage ('deploy')
+        {
+            steps{
+                sh "terraform apply -auto-approve"
+            }
+        }
+    }
+}
