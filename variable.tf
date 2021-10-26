@@ -22,7 +22,7 @@ variable "cidr_vpc" {
 
 variable "public_subnet_cidr" {
   type = list
-  default = ["192.168.4.0/24"]
+  default = ["192.168.4.0/24","192.168.3.0/24"]
 }
 
 variable "private_subnet_cidr" {
