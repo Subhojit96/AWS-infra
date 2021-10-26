@@ -14,16 +14,16 @@ pipeline{
         stage ('plan'){
             steps{
                 sh "terraform plan"
-                sh "us-east-1"
             }
         }
         stage ('deploy')
         {
             steps{
                 sh "terraform apply -auto-approve"
-                sh "AKIAZJ4SL3S7EA5PFIPX"
+                /*sh "AKIAZJ4SL3S7EA5PFIPX"
                 sh "us-east-1"
                 sh "BK8tUl4CrY5JkCdEN3uQ8HIdQs9pnULRtIp+ObQR "
+                */
             }
         }
     }
