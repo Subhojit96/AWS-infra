@@ -7,6 +7,7 @@ resource "aws_instance" "ec2-1" {
   monitoring = false
   //count = "${length(var.public_subnet_cidr)}"
   subnet_id = aws_subnet.public.0.id
+  vpc_security_group_ids = [ "${aws_security_group.sg.id}" ]
   tags = {
     "Name" = "${var.tag}-ec2instance"
   }
@@ -15,7 +16,7 @@ resource "aws_instance" "ec2-1" {
 #LoginKey Details
 resource "aws_key_pair" "key" {
   key_name = "Jenkins-pem"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCz3kMIVzeyksIQ/7ZYk6rKdmXmdbl33af+i4F5XuFpzdfhUe2/npzeiv5TDGp0tutty3KhoIUKekj5ZZRxauIoohFRHLKj6D97eRtncWVl6qpHUSIhz8L8Yo9z/z4xxNBi9WYR7J/a7s+egnGCa14TvUr4ZqdkhOw2uT13qR+QpfSCM/JKwXO+3NaPvRQ201GPv44qqeSBhl/ixGSisTui0CBwHChk5w/9mz+W9p8G0B2FltnvFx0cpKDGtKSNOpImTOq9Fg8pmE1hTqgyHb9DQOkaoinVUMgdGmqWTSQeP2lTMmMM4acedqwAiv9JjvOYizd6imWPiFxolRvPcg5FEnSz7kMEup2scSUJ5YsYwtFLO3ViKnFhUHldSb+IqtwAqrHlY6bLAE08qOqfvKXwzAERly9Nic/cAIe/Krdmre1l7KT0cZD48o2/XhqRh4mNDZxfJTTh5Nds1Yji0Zt3k1bySt09YJk//2GjplvOQmw/NkbKza4tMM7PzgGZ8wU= ec2-user"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDjWUdEzt8z9wyO4lpBZrdPwEEvRuBqh0Lo1+SAI1obdojIXj27y0ZAAuOmIpJzUONnP/xcTUKWbRwT0RGbz/QGwaxX/Zfj21XH0M6NWEOhu7TIgzFNApSZKbY8vEcA4gcQXSCMjbEmjrFthDDiK9CAUqp/uV95H9sJdi2FZ1WCuISvtIrPeJ7RT5JmFLPIltuSATwV9Xu29xtWEeXfnLqip9qj7snB5eWaNkuqGLjAfdXHaaInG8Q/J7vyrhD2RG44mPz8absVMOt2xNBSkiDmN9bawaShzEU7GjAyWgLGJ2SMRsma0X7M0429ADQ3THiEIL7r8C6ENV6QpCE1mgWn Jenkins"
 }
 resource "aws_ebs_volume" "ebs" {
   size = "8"
