@@ -2,14 +2,13 @@
 variable "access_key" {
   description = "Enter access key"
   type = string
-  default "AKIAZJ4SL3S7EA5PFIPX
+  default "AKIAZJ4SL3S7EA5PFIPX"
 }
 
 variable "secret_key" {
   type= string
   description = "Enter secret_key"
-  default "BK8tUl4CrY5JkCdEN3uQ8HIdQs9pnULRtIp+ObQR 
-"
+  default "BK8tUl4CrY5JkCdEN3uQ8HIdQs9pnULRtIp+ObQR "
 }
 
 variable "region" {
