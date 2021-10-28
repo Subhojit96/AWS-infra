@@ -1,5 +1,5 @@
 
-/*variable "access_key" {
+variable "access_key" {
   description = "Enter access key"
   type = string
 }
@@ -8,10 +8,11 @@ variable "secret_key" {
   type= string
   description = "Enter secret_key"
 }
-*/
+
 variable "region" {
   type = string
   description = "Enter aws region"
+  
 }
 
 variable "cidr_vpc" {

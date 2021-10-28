@@ -5,21 +5,35 @@ pipeline{
     tools {
         terraform 'terraform'
     }
+    environment{
+        access_key= credentials ('AWS_ACCESS_KEY_ID')
+        secrets= credentials ('AWS_SECRET_KEY_ID')
+        region="us-east-1"
+    }
     stages{
         stage ('initilize'){
             steps{
+                sh "echo \$PWD"
                 sh "terraform init"
+            }
+        }
+        stage('validate'){
+            steps{
+                sh "terraform validate"
             }
         }
         stage ('plan'){
             steps{
-                sh "terraform plan"
+                sh "terraform plan -var 'access_key=$access_key' -var 'secret_key=$secrets' -var 'region=$region'\
+                -out terraform.tfplan; echo \$? > status"
+                stash name :"terraform-plan", includes: "terraform.tfplan"
             }
         }
         stage ('deploy')
         {
             steps{
-                sh "terraform apply -auto-approve"
+                unstash "terraform-plan"
+                sh "terraform apply terraform.tfplan"
             }
         }
     }
