@@ -1,65 +1,60 @@
-pipeline {
-    agent any
-    tools {
-        terraform 'terraform'
-    }    
-    environment {
-        ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
-        SECRET_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-    }
-    stages {
-            stage('TerraformInit'){
-            steps {
-                
-                    sh "terraform init -input=false"
+pipeline{
+  agent{
+      label 'master'
+  } 
+  option{
+      timeout(time:1,unit:'HOURS')
+      timestamps()
+  } 
+  tools{
+      terraform 'terraform'
+  }
+  stages{
+    input{
+        message: "Please select action"
+        ok: "Ready to apply the configuration"
+        submitter: "*"
+        submitterParameter:"whoIsSubmitter"
+        parameters{
+            booleanParam(name:'deploydestroy',defaultValue:true,description: 
+            'Describe the action to perform using the script')
+            choice(name:'choice',choices:'Deploy \n Destroy', description:'Enter choice')
+        }
+        environment{
+            access_key= credentials ('AWS_ACCESS_KEY_ID')
+            secret_key= credentials ('AWS_SECRET_KEY_ID')
+        }
+        if(${deploydestroy}=='Deploy'){
+            stage('Initialize'){
+                steps{
                     sh "echo \$PWD"
-                    sh "whoami"
-                
-            }
-        }
-
-        stage('TerraformFormat'){
-            steps {
-                
-                    sh "terraform fmt -list=true -write=false -diff=true -check=true"
+                    sh "terraform init"
                 }
-        }
-
-        stage('TerraformValidate'){
-            steps {
-                
+            }
+            stage('Validate'){
+                steps{
                     sh "terraform validate"
-                
+                }
+            }
+            stage('Plan'){
+                steps{
+                    sh "terraform plan --var 'access_key=${access_key}' --var 'secret_key=${secret_key} -out terraform.tfplan"
+                }
+            }
+            stage('Deploy'){
+                steps{
+                    sh "terraform apply -auto-approve --var 'access_key=${access_key}' --var 'secret_key=${secret_key}"
+                }
             }
         }
-
-        stage('TerraformPlan'){
-            steps {                
-                sh "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' \
-                    -out terraform.tfplan;echo \$? > status"
-                stash name: "terraform-plan", includes: "terraform.tfplan"
-                }
-        }
-        
-        stage('TerraformApply'){
-            steps {
-                script{
-                    def apply = false
-                    try {
-                        input message: 'Can you please confirm the apply', ok: 'Ready to Apply the Config'
-                        apply = true
-                    } catch (err) {
-                        apply = false
-                         currentBuild.result = 'UNSTABLE'
-                    }
-                    if(apply){
-                        
-                            unstash "terraform-plan"
-                            sh 'terraform apply terraform.tfplan' 
-                        
-                    }
+        else{
+            stage{
+                steps
+                {
+                    sh "terraform destroy -auto-approve --var 'access_key=${access_key}' --var 'secret_key=${secret_key}"
                 }
             }
         }
     }
+  }
 }
