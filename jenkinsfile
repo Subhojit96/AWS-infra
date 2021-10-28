@@ -23,7 +23,7 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh 'terraform plan --var 'access_key=$access_key' --var 'secret_key=$secret_key' -out terraform.tf plan '
+                sh 'terraform plan ${access_key} ${secret_key} -out terraform.tf plan '
 
                 
             }
