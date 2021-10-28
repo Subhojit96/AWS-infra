@@ -7,7 +7,7 @@ pipeline{
     }
     environment{
         access_key= credentials ('AWS_ACCESS_KEY_ID')
-        secrets= credentials ('AWS_SECRET_KEY_ID')
+        secret_key= credentials ('AWS_SECRET_KEY_ID')
     }
     stages{
         stage ('initilize'){
@@ -23,7 +23,7 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh "terraform plan \
+                sh "terraform plan '$access_key' '$secret_key' \
                 -out terraform.tfplan;"
                 stash name :"terraform-plan", includes: "terraform.tfplan"
             }
@@ -31,8 +31,7 @@ pipeline{
         stage ('deploy')
         {
             steps{
-                unstash "terraform-plan"
-                sh "terraform apply terraform.tfplan"
+                sh "terraform apply '$access_key' '$secret_key'"
             }
         }
     }
