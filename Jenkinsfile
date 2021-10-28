@@ -16,8 +16,7 @@ pipeline{
   stages{
     stage('Build'){
             steps{
-                sh "echo \$PWD"
-                sh "terraform init"
+            sh "terraform init"
         }
     stage('Validate'){
         steps{

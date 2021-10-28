@@ -23,16 +23,16 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh 'terraform plan -var 'access_key=$access_key' -var 'secret_key=$secret_key' -out terraform.tf plan '
+                sh 'terraform plan --var 'access_key=$access_key' --var 'secret_key=$secret_key' -out terraform.tf plan '
 
-                stash name :"terraform-plan", includes: "terraform.tfplan"
+                
             }
         }
         stage ('deploy')
         {
             steps{
-                unstash "terraform-plan"
-                sh 'terraform apply terraform.tfplan'
+                
+                sh 'terraform apply --var 'access_key=$access_key' --var 'secret_key=$secret_key''
             }
         }
     }
