@@ -8,13 +8,6 @@ variable "secret_key" {
   type= string
   description = "Enter secret_key"
 }
-
-variable "region" {
-  type = string
-  description = "Enter aws region"
-
-}
-
 variable "cidr_vpc" {
   description = "Enter CIDR range"
   default = "192.168.0.0/16"
