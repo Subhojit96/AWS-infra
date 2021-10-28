@@ -14,7 +14,7 @@ pipeline{
        secret_key= credentials ('AWS_SECRET_KEY_ID')
     }
   stages{
-    stage('build'){
+    stage('Build'){
                 input{
                 message "Please select action"
                 ok "Ready to apply the configuration"
