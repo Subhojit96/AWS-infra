@@ -9,6 +9,10 @@ pipeline{
   tools{
       terraform 'terraform'
     }
+   environment{
+       access_key= credentials ('AWS_ACCESS_KEY_ID')
+       secret_key= credentials ('AWS_SECRET_KEY_ID')
+    }
   stages{
     stage('build'){
                 input{
@@ -21,10 +25,6 @@ pipeline{
                 'Describe the action to perform using the script')
                 choice(name:'choice',choices:'Deploy \n Destroy', description:'Enter choice')
                 }
-            }
-            environment{
-                access_key= credentials ('AWS_ACCESS_KEY_ID')
-                secret_key= credentials ('AWS_SECRET_KEY_ID')
             }
             steps{
                 sh "echo \$PWD"
