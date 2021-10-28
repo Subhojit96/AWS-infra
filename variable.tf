@@ -1,10 +1,10 @@
 
-variable "var.access_key" {
+variable "access_key" {
   description = "Enter access key"
   type = string
 }
 
-variable "var.secret_key" {
+variable "secret_key" {
   type= string
   description = "Enter secret_key"
 }

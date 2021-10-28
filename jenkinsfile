@@ -23,8 +23,8 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh "terraform plan -var 'var.access_key=$access_key' -var 'secret_key=$secrets' \
-                -out terraform.tfplan; echo \$? > status"
+                sh "terraform plan \
+                -out terraform.tfplan;"
                 stash name :"terraform-plan", includes: "terraform.tfplan"
             }
         }
