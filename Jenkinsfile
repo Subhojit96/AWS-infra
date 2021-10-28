@@ -15,17 +15,6 @@ pipeline{
     }
   stages{
     stage('Build'){
-                input{
-                message "Please select action"
-                ok "Ready to apply the configuration"
-                submitter "admin"
-                submitterParameter"whoIsSubmitter"
-                parameters{
-                booleanParam(name:'deploydestroy',defaultValue:true,description: 
-                'Describe the action to perform using the script')
-                choice(name:'choice',choices:'Deploy \n Destroy', description:'Enter choice')
-                }
-            }
             steps{
                 sh "echo \$PWD"
                 sh "terraform init"
