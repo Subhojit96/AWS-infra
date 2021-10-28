@@ -1,16 +1,17 @@
 pipeline{
   agent{
       label 'master'
-  } 
-  option{
+    } 
+  options{
       timeout(time:1,unit:'HOURS')
       timestamps()
-  } 
+    } 
   tools{
       terraform 'terraform'
-  }
+    }
   stages{
-    input{
+      stage('build'){
+               input{
         message: "Please select action"
         ok: "Ready to apply the configuration"
         submitter: "*"
@@ -55,6 +56,7 @@ pipeline{
                 }
             }
         }
+    }  
+        }
     }
-  }
 }
