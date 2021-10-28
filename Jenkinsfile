@@ -12,10 +12,10 @@ pipeline{
   stages{
     stage('build'){
                 input{
-                message: "Please select action"
-                ok: "Ready to apply the configuration"
-                submitter: "*"
-                submitterParameter:"whoIsSubmitter"
+                message "Please select action"
+                ok "Ready to apply the configuration"
+                submitter "admin"
+                submitterParameter"whoIsSubmitter"
                 parameters{
                 booleanParam(name:'deploydestroy',defaultValue:true,description: 
                 'Describe the action to perform using the script')
