@@ -23,7 +23,7 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh 'terraform plan -out terraform.tf plan '
+                sh 'terraform plan -out terraform.tfplan '
 
                 
             }
