@@ -24,7 +24,7 @@ pipeline{
         }
         stage ('plan'){
             steps{
-                sh "terraform plan -var "access_key=$access_key" -var "secret_key=$secrets" -var "region=$region"\
+                sh "terraform plan -var'access_key=$access_key' -var'secret_key=$secrets' -var'region=$region'\
                 -out terraform.tfplan; echo \$? > status"
                 stash name :"terraform-plan", includes: "terraform.tfplan"
             }
