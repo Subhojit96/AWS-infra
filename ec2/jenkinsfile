@@ -1,0 +1,39 @@
+pipeline{
+    agent {
+        label 'master'
+    }
+    tools {
+        terraform 'terraform'
+    }
+    environment{
+        access_key= credentials ('AWS_ACCESS_KEY_ID')
+        secret_key= credentials ('AWS_SECRET_KEY_ID')
+    }
+    stages{
+        stage ('initilize'){
+            steps{
+                sh "echo \$PWD"
+                sh "terraform init"
+            }
+        }
+        stage('validate'){
+            steps{
+                sh "terraform validate"
+            }
+        }
+        stage ('plan'){
+            steps{
+                sh 'terraform plan -out terraform.tfplan '
+
+                
+            }
+        }
+        stage ('deploy')
+        {
+            steps{
+                
+                sh 'terraform apply -auto-approve'
+            }
+        }
+    }
+}
